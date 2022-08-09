@@ -1,0 +1,9 @@
+{
+	"dni": "12345678X",
+	"numeroRuedas": 4,
+	"marca": "Ford",
+	"modelo": "Focus",
+	"numeroPuertas": 5,
+	"tipoCocheEnum": "TURISMO",
+	"tipoCombustibleEnum": "DIESEL"
+}

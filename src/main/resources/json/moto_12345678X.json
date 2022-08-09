@@ -1,0 +1,9 @@
+{
+	"autonomia": 230,
+	"consumo": 8,
+	"dni": "12345678X",
+	"marca": "Suzuki",
+	"modelo": "GSXR-750",
+	"numeroRuedas": 2,
+	"tipoMotoEnum": "SPORT"
+}

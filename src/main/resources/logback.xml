@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<contextName>runnable-test</contextName>
+
+	<jmxConfigurator />
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%-5p|%d{ISO8601}|%c{1}|%m%ex%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>runnable-test.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>runnable-test.%d{yyyyMMdd}.log</fileNamePattern>
+			<maxHistory>1</maxHistory>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%-5p|%d{ISO8601}|%c{1}|%m%ex%n</pattern>
+		</encoder>
+	</appender> 
+	
+  	<logger name="org.springframework" additivity="false">
+		<level value="error" />
+    	<appender-ref ref="file" />
+  	</logger>
+
+  	<logger name="com.vodafone.edc" level="DEBUG" additivity="false">
+    	<appender-ref ref="console" />
+  		<appender-ref ref="file" />
+  	</logger>
+  	
+  	  <logger name="com.jtr" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="console" />
+    	<appender-ref ref="file" />
+  	</logger>
+
+  	
+	<root level="error">
+		<appender-ref ref="console" />
+		<appender-ref ref="file" />
+	</root>
+
+</configuration>
