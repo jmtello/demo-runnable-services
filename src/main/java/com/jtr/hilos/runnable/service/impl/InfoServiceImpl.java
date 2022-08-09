@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jtr.hilos.runnable.controller.AutoController;
 import com.jtr.hilos.runnable.dto.AutoDTO;
 import com.jtr.hilos.runnable.dto.DatosPersonalesDTO;
 import com.jtr.hilos.runnable.dto.InfoUserDTO;
