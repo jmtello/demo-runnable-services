@@ -18,7 +18,6 @@ public class DatosPersonalesRunnableServiceImpl implements Runnable
 	
 	public DatosPersonalesRunnableServiceImpl(String dni, DatosPersonalesService datosPersonalesService, Map<String, DatosPersonalesDTO> response)
 	{
-		super();
 		this.dni = dni;
 		this.datosPersonalesService = datosPersonalesService;
 		this.response = response;
