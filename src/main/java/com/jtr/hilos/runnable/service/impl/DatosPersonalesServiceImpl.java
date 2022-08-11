@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.jtr.hilos.runnable.dto.DatosPersonalesDTO;
@@ -17,6 +19,8 @@ import com.vodafone.edc.fwk.utils.StringUtils;
 public class DatosPersonalesServiceImpl implements DatosPersonalesService
 {
 
+	private static final Logger LOG = LoggerFactory.getLogger(DatosPersonalesServiceImpl.class);
+	
 	private static Map<String, DatosPersonalesDTO> map = new HashMap<String, DatosPersonalesDTO>();
 	
 	static {
@@ -30,9 +34,25 @@ public class DatosPersonalesServiceImpl implements DatosPersonalesService
 	@Override
 	public DatosPersonalesDTO find(String dni)
 	{
+		final String logTrailer = "[findDatosPersonales]";
+		
 		if(StringUtils.isBlank(dni)) {
 			return null;
 		}
+		
+		LOG.debug("{} INICIO", logTrailer);
+		
+		try
+		{
+			Thread.sleep(10000);
+
+			LOG.debug("{} recuperada info de BBDD para la consulta de datos personales [dni:{}]", logTrailer, dni);
+		}
+		catch (InterruptedException e)
+		{
+			LOG.error("{} Ocurrido error al hacer el sleep del hilo", logTrailer, e);
+		}
+		
 		
 		return map.get(dni);
 	}

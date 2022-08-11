@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import com.jtr.hilos.runnable.dto.InfoUserDTO;
 import com.jtr.hilos.runnable.service.AutoService;
 import com.jtr.hilos.runnable.service.DatosPersonalesService;
 import com.jtr.hilos.runnable.service.InfoService;
+import com.vodafone.edc.fwk.utils.AutorizadoContext;
 import com.vodafone.edc.fwk.utils.CollectionUtils;
 import com.vodafone.edc.fwk.utils.LogUtils;
 import com.vodafone.edc.fwk.utils.StringUtils;
@@ -37,6 +40,62 @@ public class InfoServiceImpl implements InfoService
 
 	@Override
 	public InfoUserDTO getInfo(String dni)
+	{
+//		return this.getInfoUser(dni);
+		
+		return this.getCallableInfoUser(dni);
+	}
+	
+	private InfoUserDTO getCallableInfoUser(String dni)
+	{
+		final String logTrailer = "[getCallableInfoUser]";
+		
+		InfoUserDTO result = new InfoUserDTO();
+		
+		try
+		{
+		
+			//sleep 10 segundos
+			CompletableFuture<DatosPersonalesDTO> futureDatos = CompletableFuture.supplyAsync(() ->{
+				return this.datosPersonalesService.find(dni);
+			});
+			
+			//sleep 4 segundos
+			CompletableFuture<List<AutoDTO>> futureAuto = CompletableFuture.supplyAsync(() ->{
+				return this.autoService.find(dni);
+			});
+			
+			CompletableFuture.allOf(futureDatos, futureAuto).get();
+			
+			DatosPersonalesDTO datosPersonales = futureDatos.get();
+			List<AutoDTO> autos = futureAuto.get();
+			
+			result.setDni(dni);
+			
+			result.setDatosPersonales(datosPersonales);
+			
+			if (CollectionUtils.isNotEmpty(autos))
+			{
+				result.setAutos(autos);
+			}
+		}
+		catch(Exception exc)
+		{
+			LOG.error("{} Ocurrido error no controlado ", logTrailer, exc);
+		}
+		
+		return result;
+	}
+	
+//	private void executeFutures(CompletableFuture<?>... futures) throws InterruptedException, ExecutionException
+//	{
+//		CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(futures);
+//		
+//		combinedFuture.get();
+//	}
+	
+	
+	private InfoUserDTO getInfoUser(String dni)
 	{
 		if (StringUtils.isBlank(dni))
 		{
@@ -66,6 +125,7 @@ public class InfoServiceImpl implements InfoService
 
 		return result;
 	}
+	
 
 	private void asyncServices(Runnable... runnableServices)
 	{

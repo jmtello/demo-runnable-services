@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.jtr.hilos.runnable.dto.AutoDTO;
@@ -18,6 +20,8 @@ import com.vodafone.edc.fwk.utils.StringUtils;
 @Service(value = "autoService")
 public class AutoServiceImpl implements AutoService
 {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(AutoServiceImpl.class);
 
 	private static Map<String, List<AutoDTO>> map = null;
 	
@@ -51,8 +55,23 @@ public class AutoServiceImpl implements AutoService
 	@Override
 	public List<AutoDTO> find(String dni)
 	{
+		final String logTrailer = "[find]";
+		
 		if(StringUtils.isBlank(dni)) {
 			return null;
+		}
+		
+		LOG.debug("{} INICIO", logTrailer, dni);
+		
+		try
+		{
+			Thread.sleep(4000);
+
+			LOG.debug("{} recuperada info de bbdd para recuperar el listado de autos para el  [dni:{}]", logTrailer, dni);
+		}
+		catch (InterruptedException e)
+		{
+			LOG.error("{} Ocurrido error al hacer el sleep del hilo", logTrailer, e);
 		}
 		
 		return map.get(dni);
