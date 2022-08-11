@@ -87,14 +87,6 @@ public class InfoServiceImpl implements InfoService
 		return result;
 	}
 	
-//	private void executeFutures(CompletableFuture<?>... futures) throws InterruptedException, ExecutionException
-//	{
-//		CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(futures);
-//		
-//		combinedFuture.get();
-//	}
-	
-	
 	private InfoUserDTO getInfoUser(String dni)
 	{
 		if (StringUtils.isBlank(dni))
